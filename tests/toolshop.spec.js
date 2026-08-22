@@ -36,7 +36,7 @@ test('User filters products by category and sorts them by price ascending ', asy
     for(let i = 0 ; i< pricesNumbers.length-1; i++){
         expect(pricesNumbers[i]).toBeLessThanOrEqual(pricesNumbers[i+1]);
     }
-})
+});
 
 test('User adds a product to the cart and verifies cart contents', async({ page })=>{
     await page.locator('.card').first().click();
@@ -50,7 +50,4 @@ test('User adds a product to the cart and verifies cart contents', async({ page 
     await page.locator('[data-test="nav-cart"]').click();
     const productQuantity = page.locator('[data-test="product-quantity"]');
     await expect(productQuantity).toHaveValue('2');
-    
-
-
-})
+    })
