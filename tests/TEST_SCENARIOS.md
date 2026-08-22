@@ -12,16 +12,14 @@ And the user selects "DE" from the language options
 Then the page content is displayed in German
 And the language selector  shows "DE" as the active language
 
-3. 
-Scenario: User filters products by category and sorts them by price ascending
+3. Scenario: User filters products by category and sorts them by price ascending
 Given the user is on the home page 
 When the user selects the "Hand Tools" category filter
 And the user sets the sort order to "Price (Low to High)" 
 Then only products from the "Hand Tools" category are displayed
 And the displayed products are ordered from the lowest price to the highest price 
 
-4. 
-Scenario: User adds a product to the cart and verifies cart contents
+4. Scenario: User adds a product to the cart and verifies cart contents
 Given the user is on a product detail page 
 When the user selects a quantity of 2 
 And the user clicks the "Add to cart" button
