@@ -7,15 +7,22 @@
     "test": "npx bddgen && npx playwright test",
     "test:chromium": "npx bddgen && npx playwright test --project=chromium",
     "test:firefox": "npx bddgen && npx playwright test --project=firefox",
-    "test:webkit": "npx bddgen && npx playwright test --project=webkit"
+    "test:webkit": "npx bddgen && npx playwright test --project=webkit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.2.0",
-    "playwright-bdd": "^9.2.0"
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "playwright-bdd": "^9.2.0",
+    "prettier": "^3.9.6"
   }
 }

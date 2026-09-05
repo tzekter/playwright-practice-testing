@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 
 const {Given, When, Then} = createBdd();
@@ -32,7 +32,7 @@ When('the user changes the interface language to {string}', async({ page }, lang
     await page.locator(`[data-test="lang-${langCode.toLowerCase()}"]`).click();
     });
 
-Then('the page content is displayed in {string}', async({ page }, language)=>{
+Then('the page content is displayed in {string}', async({ page }, _language)=>{
     await expect(page.locator('[data-test="nav-home"]')).toHaveText(/Start/);
 });
 
@@ -42,7 +42,7 @@ Then('the language selector shows {string} as the active language', async({ page
 });
 
 //Third scenario
-When('the user sets the sort order to {string}', async ({ page }, sortLabel)=>{
+When('the user sets the sort order to {string}', async ({ page }, _sortLabel)=>{
     await page.locator('[data-test="sort"]').selectOption('price,asc');
 });
 
@@ -50,7 +50,7 @@ When('the user filters by {string} category', async ({ page }, category)=>{
     await page.locator('#filters').getByText(category).check();
 });
 
-Then('only products from the {string} category are displayed', async ({ page }, category)=>{
+Then('only products from the {string} category are displayed', async ({ page }, _category)=>{
     const products = page.locator('.card [data-test="product-name"]');
     await expect(products.first()).toBeVisible();
 });
@@ -60,7 +60,6 @@ Then('the displayed products are ordered from the lowest price to the highest pr
     await expect(prices.first()).toBeVisible();
     const pricesTexts = await prices.allTextContents();
     const pricesNumbers = pricesTexts.map(price => parseFloat(price.replace('$','').trim()));
-    console.log(pricesNumbers)
     for(let i = 0 ; i< pricesNumbers.length-1; i++){
         expect(pricesNumbers[i]).toBeLessThanOrEqual(pricesNumbers[i+1]);
     }
