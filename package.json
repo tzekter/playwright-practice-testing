@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx bddgen && npx playwright test",
+    "test:chromium": "npx bddgen && npx playwright test --project=chromium",
+    "test:firefox": "npx bddgen && npx playwright test --project=firefox",
+    "test:webkit": "npx bddgen && npx playwright test --project=webkit"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.2.0"
+    "@types/node": "^26.2.0",
+    "playwright-bdd": "^9.2.0"
   }
 }
