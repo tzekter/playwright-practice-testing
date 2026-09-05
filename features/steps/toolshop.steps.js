@@ -78,7 +78,7 @@ Given('the user is on a product detail page', async ({ page }) => {
 });
 
 When('the user adds {int} items of the product to the cart', async ({ page }, count) => {
-    const increaseBtn = page.locator('[data-test="increase-quantity"]');
+  const increaseBtn = page.locator('[data-test="increase-quantity"]');
   for (let i = 0; i < count - 1; i++) {
     await increaseBtn.waitFor({ state: 'visible' });
     await increaseBtn.click();
