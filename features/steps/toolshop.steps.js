@@ -60,6 +60,9 @@ Then(
   async ({ page }) => {
     const prices = page.locator('.card [data-test="product-price"]');
     await expect(prices.first()).toBeVisible();
+
+    await page.waitForTimeout(500);
+
     const pricesTexts = await prices.allTextContents();
     const pricesNumbers = pricesTexts.map((price) => parseFloat(price.replace('$', '').trim()));
     for (let i = 0; i < pricesNumbers.length - 1; i++) {
@@ -75,8 +78,10 @@ Given('the user is on a product detail page', async ({ page }) => {
 });
 
 When('the user adds {int} items of the product to the cart', async ({ page }, count) => {
+    const increaseBtn = page.locator('[data-test="increase-quantity"]');
   for (let i = 0; i < count - 1; i++) {
-    await page.locator('[data-test="increase-quantity"]').click();
+    await increaseBtn.waitFor({ state: 'visible' });
+    await increaseBtn.click();
   }
   await page.locator('[data-test="add-to-cart"]').click();
 });
