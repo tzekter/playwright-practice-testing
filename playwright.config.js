@@ -1,10 +1,10 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
-import { defineBddConfig} from 'playwright-bdd';
+import { defineBddConfig } from 'playwright-bdd';
 
 const testDir = defineBddConfig({
   features: 'features/**/*.feature',
-  steps: 'features/steps/**/*.js'
+  steps: 'features/steps/**/*.js',
 });
 
 /**
@@ -29,16 +29,13 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [
-    ['line'],
-    ['html', { outputFolder: 'playwright-report' }]
-  ],
+  reporter: [['line'], ['html', { outputFolder: 'playwright-report' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     headless: true,
 
     /* Base URL to use in actions like `await page.goto('')`. */
-     baseURL: 'https://practicesoftwaretesting.com/',
+    baseURL: 'https://practicesoftwaretesting.com/',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
@@ -88,4 +85,3 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
-
