@@ -33,6 +33,8 @@ When('the user changes the interface language to {string}', async ({ page }, lan
   await langOption.waitFor({ state: 'visible' });
   await langOption.click();
 
+  await page.waitForLoadState('networkidle');
+
   await expect(page.locator('[data-test="language-select"]')).toHaveText(new RegExp(langCode));
 });
 
@@ -78,7 +80,10 @@ Then(
 //Fourth scenario
 Given('the user is on a product detail page', async ({ page }) => {
   await page.goto('/');
-  await page.locator('.card').first().click();
+  const firstCard = page.locator('.card').first();
+  await firstCard.locator('[data-test="product-name"]').waitFor({ state: 'visible' });
+  await firstCard.click();
+
   await page.locator('[data-test="add-to-cart"]').waitFor({ state: 'visible' });
 });
 
