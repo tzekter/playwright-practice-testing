@@ -38,3 +38,9 @@ Feature: Practice Software Testing Website Scenarios
     When the user views the details of a product
     Then the product detail page opens
     And the page displays the product name, price, description and an "Add to cart" button
+
+  @api
+  Scenario: Verify products endpoint returns a successful response
+    Given the user requests the products endpoint
+    Then the API response status code is 200
+    And the response contains a list of products

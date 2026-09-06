@@ -126,3 +126,19 @@ Then(
     await expect(page.locator('[data-test="product-description"]')).toBeVisible();
     await expect(page.locator('[data-test="add-to-cart"]')).toBeVisible();
     });
+
+let apiResponse;
+
+Given('the user requests the products endpoint', async ({ request }) => {
+  apiResponse = await request.get('https://api.practicesoftwaretesting.com/products');
+});
+
+Then('the API response status code is {int}', async ({}, statusCode) => {
+  expect(apiResponse.status()).toBe(statusCode);
+});
+
+Then('the response contains a list of products', async ({}) => {
+  const body = await apiResponse.json();
+  expect(body.data).toBeDefined();
+  expect(body.data.length).toBeGreaterThan(0);
+});
