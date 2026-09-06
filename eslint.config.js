@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
   {
@@ -12,8 +13,7 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        process: 'readonly',
-        console: 'readonly',
+        ...globals.node,
       },
     },
     rules: {
