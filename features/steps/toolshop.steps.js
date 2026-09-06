@@ -33,7 +33,7 @@ When('the user changes the interface language to {string}', async ({ page }, lan
   await langOption.waitFor({ state: 'visible' });
   await langOption.click();
 
-  await page.waitForLoadState('networkidle');
+  await expect(page.locator('[data-test="language-select"]')).toHaveText(new RegExp(langCode));
 
   await expect(page.locator('[data-test="language-select"]')).toHaveText(new RegExp(langCode));
 });
@@ -106,3 +106,23 @@ Then('the cart page lists the correct product with the correct quantity', async 
   const productQuantity = page.locator('[data-test="product-quantity"]');
   await expect(productQuantity).toHaveValue('2');
 });
+
+// Fifth scenario
+When('the user views the details of a product', async ({ page }) => {
+  const firstCard = page.locator('.card').first();
+  await firstCard.locator('[data-test="product-name"]').waitFor({ state: 'visible' });
+  await firstCard.click();
+});
+
+Then('the product detail page opens', async ({ page }) => {
+  await expect(page.locator('[data-test="add-to-cart"]')).toBeVisible();
+});
+
+Then(
+  'the page displays the product name, price, description and an "Add to cart" button',
+  async ({ page }) => {
+    await expect(page.locator('[data-test="product-name"]')).toBeVisible();
+    await expect(page.locator('.price-section')).toBeVisible();
+    await expect(page.locator('[data-test="product-description"]')).toBeVisible();
+    await expect(page.locator('[data-test="add-to-cart"]')).toBeVisible();
+    });

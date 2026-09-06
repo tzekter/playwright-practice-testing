@@ -9,6 +9,7 @@
     "test:firefox": "npx bddgen && npx playwright test --project=firefox",
     "test:webkit": "npx bddgen && npx playwright test --project=webkit",
     "lint": "eslint .",
+    "test:smoke": "npx bddgen && npx playwright test --grep \"@smoke\"",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
