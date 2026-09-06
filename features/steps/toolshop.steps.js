@@ -29,7 +29,11 @@ Then('every product result contains the word {string} in its name', async ({ pag
 //Second scenario
 When('the user changes the interface language to {string}', async ({ page }, langCode) => {
   await page.locator('[data-test="language-select"]').click();
-  await page.locator(`[data-test="lang-${langCode.toLowerCase()}"]`).click();
+  const langOption = page.locator(`[data-test="lang-${langCode.toLowerCase()}"]`);
+  await langOption.waitFor({ state: 'visible' });
+  await langOption.click();
+
+   await expect(page.locator('[data-test="language-select"]')).toHaveText(new RegExp(langCode));
 });
 
 Then('the page content is displayed in {string}', async ({ page }, _language) => {
@@ -75,6 +79,7 @@ Then(
 Given('the user is on a product detail page', async ({ page }) => {
   await page.goto('/');
   await page.locator('.card').first().click();
+  await page.locator('[data-test="add-to-cart"]').waitFor({ state: 'visible' });
 });
 
 When('the user adds {int} items of the product to the cart', async ({ page }, count) => {
