@@ -27,19 +27,23 @@ Then('every product result contains the word {string} in its name', async ({ pag
 });
 
 //Second scenario
+const languageContent = {
+  German: /Start/,
+};
+
 When('the user changes the interface language to {string}', async ({ page }, langCode) => {
   await page.locator('[data-test="language-select"]').click();
   const langOption = page.locator(`[data-test="lang-${langCode.toLowerCase()}"]`);
   await langOption.waitFor({ state: 'visible' });
   await langOption.click();
 
-  await page.waitForLoadState('networkidle');
-
   await expect(page.locator('[data-test="language-select"]')).toHaveText(new RegExp(langCode));
+  await expect(page.locator('[data-test="nav-home"]')).not.toHaveText('Home', { timeout: 10000 });
 });
 
-Then('the page content is displayed in {string}', async ({ page }, _language) => {
-  await expect(page.locator('[data-test="nav-home"]')).toHaveText(/Start/);
+Then('the page content is displayed in {string}', async ({ page }, language) => {
+  const expectedText = languageContent[language];
+  await expect(page.locator('[data-test="nav-home"]')).toHaveText(expectedText);
 });
 
 Then('the language selector shows {string} as the active language', async ({ page }, langCode) => {
@@ -48,17 +52,27 @@ Then('the language selector shows {string} as the active language', async ({ pag
 });
 
 //Third scenario
-When('the user sets the sort order to {string}', async ({ page }, _sortLabel) => {
-  await page.locator('[data-test="sort"]').selectOption('price,asc');
+const SortOption = {
+  'Name (A - Z)': 'name,asc',
+  'Name (Z - A)': 'name,desc',
+  'Price (Low - High)': 'price,asc',
+  'Price (High - Low)': 'price,desc',
+};
+When('the user sets the sort order to {string}', async ({ page }, sortLabel) => {
+  const optionValue = SortOption[sortLabel];
+  await page.locator('[data-test="sort"]').selectOption(optionValue);
 });
 
 When('the user filters by {string} category', async ({ page }, category) => {
   await page.locator('#filters').getByText(category).check();
 });
 
-Then('only products from the {string} category are displayed', async ({ page }, _category) => {
+Then('only products from the {string} category are displayed', async ({ page }, category) => {
   const products = page.locator('.card [data-test="product-name"]');
   await expect(products.first()).toBeVisible();
+
+  const categoryCheckbox = page.locator('#filters').getByText(category);
+  await expect(categoryCheckbox).toBeChecked();
 });
 
 Then(
@@ -106,3 +120,24 @@ Then('the cart page lists the correct product with the correct quantity', async 
   const productQuantity = page.locator('[data-test="product-quantity"]');
   await expect(productQuantity).toHaveValue('2');
 });
+
+// Fifth scenario
+When('the user views the details of a product', async ({ page }) => {
+  const firstCard = page.locator('.card').first();
+  await firstCard.locator('[data-test="product-name"]').waitFor({ state: 'visible' });
+  await firstCard.click();
+});
+
+Then('the product detail page opens', async ({ page }) => {
+  await expect(page.locator('[data-test="add-to-cart"]')).toBeVisible();
+});
+
+Then(
+  'the page displays the product name, price, description and an "Add to cart" button',
+  async ({ page }) => {
+    await expect(page.locator('[data-test="product-name"]')).toBeVisible();
+    await expect(page.locator('.price-section')).toBeVisible();
+    await expect(page.locator('[data-test="product-description"]')).toBeVisible();
+    await expect(page.locator('[data-test="add-to-cart"]')).toBeVisible();
+  }
+);
