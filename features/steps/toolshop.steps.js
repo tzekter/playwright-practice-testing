@@ -38,6 +38,7 @@ When('the user changes the interface language to {string}', async ({ page }, lan
   await langOption.click();
 
   await expect(page.locator('[data-test="language-select"]')).toHaveText(new RegExp(langCode));
+  await expect(page.locator('[data-test="nav-home"]')).not.toHaveText('Home', { timeout: 10000 });
 });
 
 Then('the page content is displayed in {string}', async ({ page }, language) => {
